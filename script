@@ -6,17 +6,11 @@ get '/' => sub {
 	my $url = $self->param('url') || '';
 	
 	if ($url) {
-		my $res = Mojo::Message::Response->new;
-		$res->code(302);
-
-		my $headers = Mojo::Headers->new;
-		$headers->add('X-Robots-Tag' => 'nofollow');
-
+		$self->res->headers->add('X-Robots-Tag' => 'nofollow');
 		return $self->redirect_to($url);
 	} else {
 		$self->render('index');
 	}
-	
 };
 
 get '/robots.txt' => sub {
@@ -50,12 +44,12 @@ and X-Robots-Tag HTTP header block to search engines, therefore protecting your 
 <script>
 function update(element){
     var typed = document.getElementById(element).value;
-    document.getElementById("build").innerHTML = "http://nofollow.me/?url=" + typed;
+    document.getElementById("build").innerHTML = "<a href='http://nofollow.me/?url=" + typed + "'>http://nofollow.me/?url=" + typed + "</a>";
 }
 </script>
 <style>
-#build {
-	font-size:18px;
+#build a {
+	font-size:20px;
 	color:green;
 }
 </style>
