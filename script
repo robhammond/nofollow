@@ -3,14 +3,22 @@ use Mojolicious::Lite;
 
 get '/' => sub {
 	my $self = shift;
-	my $url = $self->param('url') || '';
-	
-	if ($url) {
-		$self->res->headers->add('X-Robots-Tag' => 'nofollow');
-		return $self->redirect_to($url);
-	} else {
-		$self->render('index');
-	}
+	$self->render('index');
+};
+
+get '/url=*redirect' => sub {
+  my $self = shift;
+  my $url = $self->stash('redirect');
+
+  if ($url) {
+    unless ($url =~ m{^https?://}i) {
+      $url = 'http://' . $url;
+    }
+    $self->res->headers->add('X-Robots-Tag' => 'nofollow');
+    return $self->redirect_to($url);
+  } else {
+    $self->redirect_to('/');
+  }
 };
 
 get '/robots.txt' => sub {
@@ -23,28 +31,30 @@ __DATA__
 
 @@ robots.txt
 User-agent: *
-Disallow: /*?url
+Disallow: /url
 
 @@ index.html.ep
 % layout 'default';
-% title 'Nofollow.me';
+% title 'Nofollow.me: nofollowed URL redirection service';
 <h1>nofollow.me</h1>
-<p>Sometimes you don't want a link to be followed. Sometimes your 20 year old CMS doesn't allow you to apply 
-rel="nofollow" attributes.</p>
-<p>Nofollow.me will quickly, transparently and easily redirect your URL through a double-barrelled robots.txt 
-and X-Robots-Tag HTTP header block to search engines, therefore protecting your site from evil Penguins!</p>
+<p class="lead">Quick, easy &amp; transparent URL redirection service, blocking search engines along the way.</p>
+<p>Sometimes you don't want links to be followed. Sometimes your 20 year old <acronym title="Content Management System">CMS</acronym> doesn't allow you to apply 
+rel="nofollow" attributes easily (or at all).</p>
+<p>Nofollow.me uses double-barrelled search engine blocking, using both robots.txt and the 
+<a href="http://nofollow.me/url=https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag">X-Robots-Tag</a> HTTP header
+to block search engines, protecting your site from evil <a href="http://nofollow.me/url=http://en.wikipedia.org/wiki/Google_Penguin">Penguins</a>!</p>
 <p>Simply construct your URL below:</p>
 <div class="input-prepend">
-  <span class="add-on">http://nofollow.me/?url=</span>
-  <input type="url" placeholder="http://not-trusted-url-here.com/" id="url" onkeyup="update('url');" class="span8">
+  <span class="add-on">http://nofollow.me/url=</span>
+  <input type="url" placeholder="http://untrusted-url-here.com/" id="url" onkeyup="update('url');" class="span8">
 </div>
 <div id="build" class="well"></div>
-<p>Then as per Google's Webmaster Guidelines you won't get banned from Google for flowing PageRank to the wrong sites!</p>
+<p>Then as per <a href="http://nofollow.me/url=https://support.google.com/webmasters/answer/35769?hl=en">Google's Webmaster Guidelines</a> you won't get <a href="http://nofollow.me/url=http://searchenginewatch.com/article/2252255/Interflora-Google-Penalty-Advertorials-SEO-Content-Marketing">banned</a> from Google for flowing <a href="http://nofollow.me/url=http://en.wikipedia.org/wiki/PageRank">PageRank</a> to the <a href="http://nofollow.me/url=http://www.google.co.uk/intl/en_uk/insidesearch/howsearchworks/fighting-spam.html">wrong sites</a>!</p>
 
 <script>
 function update(element){
     var typed = document.getElementById(element).value;
-    document.getElementById("build").innerHTML = "<a href='http://nofollow.me/?url=" + typed + "'>http://nofollow.me/?url=" + typed + "</a>";
+    document.getElementById("build").innerHTML = "<a rel='nofollow' href='http://nofollow.me/url=" + typed + "'>http://nofollow.me/url=" + typed + "</a>";
 }
 </script>
 <style>
