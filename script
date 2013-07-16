@@ -1,0 +1,74 @@
+#!/usr/bin/env perl
+use Mojolicious::Lite;
+
+get '/' => sub {
+	my $self = shift;
+	my $url = $self->param('url') || '';
+	
+	if ($url) {
+		my $res = Mojo::Message::Response->new;
+		$res->code(302);
+
+		my $headers = Mojo::Headers->new;
+		$headers->add('X-Robots-Tag' => 'nofollow');
+
+		return $self->redirect_to($url);
+	} else {
+		$self->render('index');
+	}
+	
+};
+
+get '/robots.txt' => sub {
+  my $self = shift;
+  $self->render( text => { template => 'robots'});
+};
+
+app->start;
+__DATA__
+
+@@ robots.txt
+User-agent: *
+Disallow: /*?url
+
+@@ index.html.ep
+% layout 'default';
+% title 'Nofollow.me';
+<h1>nofollow.me</h1>
+<p>Sometimes you don't want a link to be followed. Sometimes your 20 year old CMS doesn't allow you to apply 
+rel="nofollow" attributes.</p>
+<p>Nofollow.me will quickly, transparently and easily redirect your URL through a double-barrelled robots.txt 
+and X-Robots-Tag HTTP header block to search engines, therefore protecting your site from evil Penguins!</p>
+<p>Simply construct your URL below:</p>
+<div class="input-prepend">
+  <span class="add-on">http://nofollow.me/?url=</span>
+  <input type="url" placeholder="http://not-trusted-url-here.com/" id="url" onkeyup="update('url');" class="span8">
+</div>
+<div id="build" class="well"></div>
+<p>Then as per Google's Webmaster Guidelines you won't get banned from Google for flowing PageRank to the wrong sites!</p>
+
+<script>
+function update(element){
+    var typed = document.getElementById(element).value;
+    document.getElementById("build").innerHTML = "http://nofollow.me/?url=" + typed;
+}
+</script>
+<style>
+#build {
+	font-size:18px;
+	color:green;
+}
+</style>
+
+
+@@ layouts/default.html.ep
+  <!DOCTYPE html>
+  <html>
+    <head>
+    	<title><%= title %></title>
+    	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+    <div class="container"><%= content %></div></body>
+  </html>

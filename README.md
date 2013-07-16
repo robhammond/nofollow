@@ -1,4 +1,4 @@
-nofollow
-========
+nofollow me
+===========
 
-nofollow.me - a URL redirection service that blocks search engines from following the redirect.
+nofollow.me - a Mojolicious::Lite URL redirection script that blocks search engines from following the redirect.
