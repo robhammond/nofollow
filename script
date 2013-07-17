@@ -37,12 +37,13 @@ Disallow: /url
 % layout 'default';
 % title 'Nofollow.me: nofollowed URL redirection service';
 <h1>nofollow.me</h1>
-<p class="lead">Quick, easy &amp; transparent URL redirection service, blocking search engines along the way.</p>
+<h5>a rel=nofollow alternative for the rest of us</h5>
+<p class="lead">Quick, easy &amp; transparent URL redirection, blocking search engines along the way.</p>
 <p>Sometimes you don't want links to be followed. Sometimes your 20 year old <acronym title="Content Management System">CMS</acronym> doesn't allow you to apply 
-rel="nofollow" attributes easily (or at all).</p>
-<p>Nofollow.me uses double-barrelled search engine blocking, using both robots.txt and the 
-<a href="http://nofollow.me/url=https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag">X-Robots-Tag</a> HTTP header
-to block search engines, protecting your site from evil <a href="http://nofollow.me/url=http://en.wikipedia.org/wiki/Google_Penguin">Penguins</a>!</p>
+<a href="http://nofollow.me/url=https://support.google.com/webmasters/answer/96569?hl=en">rel="nofollow"</a> attributes easily (or at all).</p>
+<p>Google suggests either using a rel=nofollow attribute or redirecting links through an <a href="http://nofollow.me/url=https://support.google.com/webmasters/answer/66356?hl=en&rd=1">intermediate page</a> that's blocked using robots.txt.
+ Nofollow.me blocks search engines from following links by using both robots.txt and the 
+<a href="http://nofollow.me/url=https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag">X-Robots-Tag</a> HTTP header, protecting your site from evil <a href="http://nofollow.me/url=http://en.wikipedia.org/wiki/Google_Penguin">Penguins</a>!</p>
 <p>Simply construct your URL below:</p>
 <div class="input-prepend">
   <span class="add-on">http://nofollow.me/url=</span>
@@ -50,7 +51,7 @@ to block search engines, protecting your site from evil <a href="http://nofollow
 </div>
 <div id="build" class="well"></div>
 <p>Then as per <a href="http://nofollow.me/url=https://support.google.com/webmasters/answer/35769?hl=en">Google's Webmaster Guidelines</a> you won't get <a href="http://nofollow.me/url=http://searchenginewatch.com/article/2252255/Interflora-Google-Penalty-Advertorials-SEO-Content-Marketing">banned</a> from Google for flowing <a href="http://nofollow.me/url=http://en.wikipedia.org/wiki/PageRank">PageRank</a> to the <a href="http://nofollow.me/url=http://www.google.co.uk/intl/en_uk/insidesearch/howsearchworks/fighting-spam.html">wrong sites</a>!</p>
-
+<footer>&copy; 2013 <a href="http://robhammond.co/">rob hammond</a> - <a href="https://github.com/robhammond/nofollow">fork me on github</a></footer>
 <script>
 function update(element){
     var typed = document.getElementById(element).value;
@@ -61,6 +62,11 @@ function update(element){
 #build a {
 	font-size:20px;
 	color:green;
+}
+footer {
+  font-size: 12px;
+  bottom: 15px;
+  position:absolute;
 }
 </style>
 
