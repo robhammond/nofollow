@@ -35,7 +35,7 @@ Disallow: /url
 
 @@ index.html.ep
 % layout 'default';
-% title 'Nofollow.me: nofollowed URL redirection service';
+% title 'Nofollow.me: a rel=nofollow alternative';
 <h1>nofollow.me</h1>
 <h5>a rel=nofollow alternative for the rest of us</h5>
 <p class="lead">Quick, easy &amp; transparent URL redirection, blocking search engines along the way.</p>
